@@ -1,0 +1,741 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WisHR Connect — Talent, Training &amp; Career Launch</title>
+<meta name="description" content="WisHR Connect provides talent acquisition, HR consulting, and career growth support for modern businesses and professionals." />
+<meta name="theme-color" content="#0b0b0d" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0b0d;
+    --ink-soft:#1b1b1d;
+    --surface:#f7f1f1;
+    --surface-2:#f2dfe0;
+    --line:#dfb4b7;
+    --muted:#574145;
+    --brass:#b3121d;
+    --brass-light:#ee4d4d;
+    --teal:#8d101b;
+    --teal-light:#d43d45;
+    --radius-card:1.75rem;
+    --radius-pill:9999px;
+    --shell:76rem;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  body{background:var(--surface);color:var(--ink);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+  ul{list-style:none}
+  img{display:block;max-width:100%}
+  .shell{max-width:var(--shell);margin-inline:auto;padding-inline:1.5rem}
+  @media(min-width:640px){.shell{padding-inline:2.5rem}}
+  h1,h2,h3{font-family:'Fraunces',serif;letter-spacing:-0.01em}
+  .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  .eyebrow::before{content:'';width:.4rem;height:.4rem;border-radius:50%;background:var(--brass)}
+  .eyebrow.light{color:rgba(255,255,255,.65)}
+  .eyebrow.light::before{background:var(--brass-light)}
+  :focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;gap:.6rem;border-radius:var(--radius-pill);padding:.9rem 1.6rem;font-size:.9rem;font-weight:600;transition:transform .3s cubic-bezier(.2,.8,.2,1),background .25s,color .25s}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{transform:translateY(-2px);background:var(--teal)}
+  .btn-outline{border:1px solid var(--line);background:transparent;color:var(--ink)}
+  .btn-outline:hover{transform:translateY(-2px);border-color:var(--ink)}
+  .btn-light{background:#fff;color:var(--ink)}
+  .btn-light:hover{transform:translateY(-2px);background:var(--brass-light)}
+  .btn svg{width:1rem;height:1rem;flex-shrink:0}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal-delay-1{transition-delay:.08s}
+  .reveal-delay-2{transition-delay:.16s}
+  .reveal-delay-3{transition-delay:.24s}
+  .reveal-delay-4{transition-delay:.32s}
+
+  /* ---------- header ---------- */
+  .site-header{position:fixed;inset-inline:0;top:0;z-index:60;background:rgba(247,245,240,.78);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+  .site-header.scrolled{border-bottom-color:var(--line)}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.1rem}
+  .brand{display:flex;align-items:center;gap:.65rem;font-family:'Fraunces',serif;font-weight:600;font-size:1.25rem}
+  .brand-logo{height:2.1rem;width:auto;display:block}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15}
+  .brand-text small{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .nav-overlay-top .brand-text small,.footer-brand .brand-text small{color:rgba(255,255,255,.5)}
+  .brand span{font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .nav-desktop{display:none;gap:2rem;font-size:.875rem;font-weight:500}
+  .nav-desktop a{position:relative;padding-block:.25rem;color:var(--ink);opacity:.75;transition:opacity .25s}
+  .nav-desktop a:hover{opacity:1}
+  @media(min-width:900px){.nav-desktop{display:flex}}
+  .header-actions{display:flex;align-items:center;gap:.75rem}
+  .header-actions .btn-primary{display:none}
+  @media(min-width:640px){.header-actions .btn-primary{display:inline-flex}}
+  .nav-toggle{display:flex;flex-direction:column;justify-content:center;gap:.3rem;width:2.5rem;height:2.5rem;align-items:center;border-radius:.75rem;border:1px solid var(--line)}
+  .nav-toggle span{width:1.1rem;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s}
+  @media(min-width:900px){.nav-toggle{display:none}}
+
+  /* ---------- mobile nav overlay ---------- */
+  .nav-overlay{position:fixed;inset:0;z-index:100;background:var(--ink);color:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s ease}
+  .nav-overlay.open{opacity:1;pointer-events:auto}
+  .nav-overlay-top{display:flex;align-items:center;justify-content:space-between;padding:1.5rem}
+  .nav-overlay-top .brand{color:#fff}
+  .nav-overlay-close{width:2.5rem;height:2.5rem;border:1px solid rgba(255,255,255,.2);border-radius:.75rem;display:grid;place-items:center}
+  .nav-overlay-list{flex:1;display:flex;flex-direction:column;justify-content:center;padding:1.5rem}
+  .nav-overlay-list li{border-top:1px solid rgba(255,255,255,.1)}
+  .nav-overlay-list li:last-child{border-bottom:1px solid rgba(255,255,255,.1)}
+  .nav-overlay-list a{display:flex;align-items:center;gap:1rem;padding-block:1rem;font-family:'Fraunces',serif;font-size:1.9rem;font-weight:600;color:rgba(255,255,255,.8);transition:color .25s}
+  .nav-overlay-list a:hover{color:var(--brass-light)}
+  .nav-overlay-list small{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:rgba(255,255,255,.3)}
+  .nav-overlay-bottom{padding:1.5rem;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding-top:8rem;padding-bottom:3rem;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:3rem;align-items:center}
+  @media(min-width:960px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:2rem}}
+  .hero-copy h1{font-size:2.5rem;font-weight:600;line-height:1.05;margin-block:1.1rem 1.25rem;max-width:14ch}
+  .hero-copy h1 em{font-style:normal;color:var(--teal)}
+  @media(min-width:640px){.hero-copy h1{font-size:3.2rem}}
+  @media(min-width:1200px){.hero-copy h1{font-size:3.75rem}}
+  .hero-sub{font-size:1.05rem;color:var(--muted);max-width:36ch;margin-bottom:1.5rem}
+  .hero-about{font-size:.9rem;color:var(--muted);max-width:38ch;margin-bottom:2rem}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:.85rem;margin-bottom:2.75rem}
+  .hero-mini-stats{display:flex;gap:2rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.5rem}
+  .hero-mini-stats div{display:flex;flex-direction:column;gap:.15rem}
+  .hero-mini-stats strong{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600}
+  .hero-mini-stats span{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .hero-visual{position:relative;aspect-ratio:1/1;max-width:30rem;margin-inline:auto;width:100%}
+  #nodeSphere{width:100%;height:100%;display:block}
+  .hero-visual-label{position:absolute;left:50%;bottom:-.5rem;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap}
+
+  /* ---------- trust bar ---------- */
+  .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:1.75rem}
+  .trust .shell{display:flex;flex-direction:column;gap:1rem;align-items:center;text-align:center}
+  @media(min-width:800px){.trust .shell{flex-direction:row;text-align:left}}
+  .trust-label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap}
+  .trust-marks{display:flex;flex-wrap:wrap;gap:1.75rem 2.25rem;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;color:var(--ink);opacity:.55}
+  @media(min-width:800px){.trust-marks{justify-content:flex-end;flex:1}}
+
+  /* ---------- section shared ---------- */
+  section{padding-block:5rem}
+  .section-head{max-width:40rem;margin-bottom:3rem}
+  .section-head h2{font-size:2rem;font-weight:600;margin-top:1rem;line-height:1.1}
+  .section-head p.section-intro{margin-top:.9rem;color:var(--muted);font-size:.95rem;max-width:36ch}
+  @media(min-width:640px){.section-head h2{font-size:2.6rem}}
+
+  /* ---------- services ---------- */
+  .services-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
+  @media(min-width:640px){.services-grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:1024px){.services-grid{grid-template-columns:repeat(3,1fr)}}
+  .service-card{perspective:900px}
+  .service-card-inner{background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);padding:1.75rem;height:100%;transform-style:preserve-3d;transition:transform .25s ease-out,box-shadow .25s ease-out;will-change:transform}
+  .service-card-inner:hover{box-shadow:0 20px 40px -20px rgba(20,22,31,.25)}
+  .service-icon{width:2.75rem;height:2.75rem;border-radius:.9rem;background:var(--surface-2);display:grid;place-items:center;color:var(--teal);margin-bottom:1.25rem;transform:translateZ(30px);font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;letter-spacing:.03em}
+  .service-icon svg{width:1.4rem;height:1.4rem}
+  .service-card-inner h3{font-size:1.15rem;font-weight:600;margin-bottom:.6rem;transform:translateZ(20px)}
+  .service-card-inner p{font-size:.9rem;color:var(--muted);transform:translateZ(15px)}
+
+  /* ---------- approach ---------- */
+  .approach{background:var(--surface-2)}
+  .approach-track{position:relative;display:grid;grid-template-columns:1fr;gap:2rem;margin-top:2rem}
+  @media(min-width:900px){.approach-track{grid-template-columns:repeat(4,1fr);gap:1.5rem}}
+  .approach-line{position:absolute;top:1.35rem;left:0;right:0;height:1px;background:var(--line);display:none}
+  @media(min-width:900px){.approach-line{display:block}}
+  .approach-line-fill{height:100%;width:0%;background:var(--brass);transition:width 1.4s cubic-bezier(.16,1,.3,1)}
+  .approach-line-fill.in{width:100%}
+  .approach-step{position:relative;padding-top:.25rem}
+  .approach-num{font-family:'IBM Plex Mono',monospace;font-size:.85rem;font-weight:500;color:var(--brass);display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+  .approach-num::before{content:'';width:2.7rem;height:2.7rem;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center}
+  .approach-step h3{font-size:1.2rem;font-weight:600;margin-bottom:.6rem}
+  .approach-step p{font-size:.9rem;color:var(--muted);max-width:26ch}
+  .approach-tag{font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);margin-bottom:.4rem;display:block}
+
+  /* ---------- stats ---------- */
+  .stats-panel{background:var(--ink);color:#fff;border-radius:2rem;padding:3rem 1.75rem}
+  @media(min-width:640px){.stats-panel{padding:3.5rem}}
+  .stats-panel h2{color:#fff}
+  .stats-panel p.section-intro{color:rgba(255,255,255,.6)}
+  .stats-grid{margin-top:2.75rem;display:grid;grid-template-columns:repeat(2,1fr);gap:2.25rem}
+  @media(min-width:800px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+  .stat-num{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:600}
+  @media(min-width:640px){.stat-num{font-size:3rem}}
+  .stat-label{margin-top:.5rem;font-size:.85rem;color:rgba(255,255,255,.55)}
+
+  /* ---------- testimonials / why-us ---------- */
+  .testi-wrap{position:relative;perspective:1200px;max-width:44rem;margin-inline:auto;min-height:14rem}
+  .testi-card{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);padding:2.25rem;display:flex;flex-direction:column;justify-content:space-between;gap:1.5rem;backface-visibility:hidden;transition:transform .7s cubic-bezier(.22,1,.36,1),opacity .5s;transform:rotateY(0deg);opacity:0;pointer-events:none}
+  .testi-card.active{opacity:1;pointer-events:auto;transform:rotateY(0deg)}
+  .testi-card.prev{transform:rotateY(-90deg);opacity:0}
+  .testi-card.next{transform:rotateY(90deg);opacity:0}
+  .testi-quote{font-family:'Fraunces',serif;font-size:1.3rem;line-height:1.4;font-weight:500}
+  @media(min-width:640px){.testi-quote{font-size:1.55rem}}
+  .testi-person{display:flex;align-items:center;gap:.85rem}
+  .testi-avatar{width:2.5rem;height:2.5rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:.75rem;font-weight:600}
+  .testi-person span{display:block;font-size:.85rem;color:var(--muted)}
+  .testi-person strong{font-size:.9rem}
+  .testi-dots{display:flex;justify-content:center;gap:.5rem;margin-top:1.75rem}
+  .testi-dots button{width:.5rem;height:.5rem;border-radius:50%;background:var(--line);transition:all .3s}
+  .testi-dots button.active{width:1.4rem;background:var(--brass)}
+
+  /* ---------- contact / CTA ---------- */
+  .contact{background:var(--ink);color:#fff;border-radius:2rem 2rem 0 0}
+  .contact-grid{display:grid;grid-template-columns:1fr;gap:3rem}
+  @media(min-width:960px){.contact-grid{grid-template-columns:1fr 1fr;gap:4rem}}
+  .contact h2{color:#fff;font-size:2rem;margin-top:1rem}
+  @media(min-width:640px){.contact h2{font-size:2.6rem}}
+  .contact-sub{color:rgba(255,255,255,.6);margin-top:1rem;max-width:32ch}
+  .contact-points{margin-top:2.25rem;display:flex;flex-direction:column;gap:1rem}
+  .contact-points li{display:flex;gap:.75rem;align-items:flex-start;font-size:.9rem;color:rgba(255,255,255,.75)}
+  .contact-points svg{width:1.1rem;height:1.1rem;flex-shrink:0;margin-top:.15rem;color:var(--brass-light)}
+  form.contact-form{display:flex;flex-direction:column;gap:1rem}
+  .field label{display:block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-bottom:.5rem}
+  .field input,.field textarea{width:100%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);border-radius:.9rem;padding:.85rem 1rem;font-size:.9rem;color:#fff;outline:none;transition:border-color .25s,background .25s;font-family:'Inter',sans-serif}
+  .field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.35)}
+  .field input:focus,.field textarea:focus{border-color:var(--brass-light);background:rgba(255,255,255,.09)}
+  .field textarea{resize:none}
+  .form-row{display:flex;flex-direction:column;gap:1rem}
+  @media(min-width:520px){.form-row{flex-direction:row}.form-row .field{flex:1}}
+  .form-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:.25rem;flex-wrap:wrap}
+  .form-note{font-size:.75rem;color:rgba(255,255,255,.4)}
+  .form-success{display:none;flex-direction:column;align-items:flex-start;gap:.75rem;padding:1.5rem 0}
+  .form-success.show{display:flex}
+  .form-success .check{width:3rem;height:3rem;border-radius:50%;background:var(--teal);display:grid;place-items:center}
+  .form-success .check svg{width:1.3rem;height:1.3rem;color:#fff}
+  form.contact-form.hide{display:none}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);color:#fff;padding-top:0}
+  .footer-inner{padding-block:3.5rem;border-top:1px solid rgba(255,255,255,.1)}
+  .footer-cols{display:grid;grid-template-columns:1fr;gap:2.5rem}
+  @media(min-width:640px){.footer-cols{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+  .footer-brand p{margin-top:1rem;font-size:.85rem;color:rgba(255,255,255,.5);max-width:22rem}
+  .footer-col h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4);margin-bottom:1rem}
+  .footer-col li{margin-bottom:.6rem}
+  .footer-col a{font-size:.875rem;color:rgba(255,255,255,.7);transition:color .25s}
+  .footer-col a:hover{color:#fff}
+  .footer-legal{display:flex;flex-direction:column;gap:.75rem;padding-block:1.75rem;border-top:1px solid rgba(255,255,255,.1);font-size:.75rem;color:rgba(255,255,255,.4)}
+  @media(min-width:640px){.footer-legal{flex-direction:row;justify-content:space-between}}
+  .footer-legal .legal-links{display:flex;gap:1.25rem}
+  .footer-legal a:hover{color:#fff}
+</style>
+</head>
+<body>
+
+<a href="#main" class="sr-only">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="shell header-inner">
+    <a class="brand" href="#top"><img class="brand-logo" src="HR_Logo_1_-removebg-preview.png" alt="WisHR Connect" /><span class="brand-text">WisHR Connect <small>HR Consultancy</small></span></a>
+    <nav class="nav-desktop" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#approach">Career Launch</a>
+      <a href="#results">Results</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-primary" href="#contact">Book a consultation</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-overlay" id="navOverlay">
+  <div class="shell nav-overlay-top">
+    <a class="brand" href="#top"><img class="brand-logo" src="HR_Logo_1_-removebg-preview.png" alt="WisHR Connect" /><span class="brand-text">WisHR Connect <small>HR Consultancy</small></span></a>
+    <button class="nav-overlay-close" id="navClose" aria-label="Close menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4l16 16M20 4 4 20"/></svg>
+    </button>
+  </div>
+  <ul class="nav-overlay-list shell">
+    <li><a href="#services" data-nav><small>01</small> Services</a></li>
+    <li><a href="#approach" data-nav><small>02</small> Career Launch</a></li>
+    <li><a href="#results" data-nav><small>03</small> Results</a></li>
+    <li><a href="#contact" data-nav><small>04</small> Contact</a></li>
+  </ul>
+  <div class="nav-overlay-bottom shell">Kochi, Kerala — HR consultancy for technology teams</div>
+</div>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow reveal in">HR Consultancy — WisHR Connect</p>
+        <h1 class="reveal in reveal-delay-1">Where <em>ambition</em> meets employability.</h1>
+        <p class="hero-sub reveal in reveal-delay-2">We transform learners and professionals into industry-ready talent with career guidance, skill development and personalised mentorship — plus technology-enabled talent acquisition and workforce solutions for IT businesses.</p>
+        <p class="hero-about reveal in reveal-delay-2">WisHR Connect helps businesses grow stronger teams and gives professionals practical support to move forward with confidence and clarity.</p>
+        <div class="hero-ctas reveal in reveal-delay-3">
+          <a class="btn btn-primary" href="#contact">Book a consultation
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-outline" href="#services">View our services</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal in reveal-delay-2">
+        <canvas id="nodeSphere" aria-hidden="true"></canvas>
+        <span class="hero-visual-label">Talent, connected</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="shell">
+      <div class="section-head reveal">
+        <p class="eyebrow">Services</p>
+        <h2>Everything between hiring and career readiness.</h2>
+        <p class="section-intro">Technology-enabled talent acquisition and workforce solutions for IT businesses — with career guidance built in.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-card-inner">
+            <div class="service-icon">TA</div>
+            <h3>Talent Acquisition &amp; IT Staffing</h3>
+            <p>Technology-enabled talent acquisition and workforce solutions built for IT businesses.</p>
+          </div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-card-inner">
+            <div class="service-icon">CG</div>
+            <h3>Career Guidance &amp; Mentorship</h3>
+            <p>Personalised mentorship that closes the gap between ambition and employability.</p>
+          </div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-card-inner">
+            <div class="service-icon">SD</div>
+            <h3>Skill Development Programs</h3>
+            <p>Structured upskilling that turns learners into industry-ready, hireable talent.</p>
+          </div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-card-inner">
+            <div class="service-icon">HR</div>
+            <h3>HR Training for IT Teams</h3>
+            <p>Recruitment, workforce planning and people operations built for technology teams.</p>
+          </div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-card-inner">
+            <div class="service-icon">WE</div>
+            <h3>Workforce Enablement</h3>
+            <p>Role-specific capability development that keeps growing teams performing.</p>
+          </div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-card-inner">
+            <div class="service-icon">CL</div>
+            <h3>Career Launch Support</h3>
+            <p>End-to-end placement support — from communication skills to executive presence.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="approach" id="approach">
+    <div class="shell">
+      <div class="section-head reveal">
+        <p class="eyebrow">Career Support</p>
+        <h2>The Career Launch Program</h2>
+        <p class="section-intro">We enable workforce readiness for technology-driven roles — a guided track from communication to executive presence.</p>
+      </div>
+      <div class="approach-track">
+        <div class="approach-line"><div class="approach-line-fill" id="approachFill"></div></div>
+
+        <div class="approach-step reveal reveal-delay-1">
+          <p class="approach-num">01</p>
+          <span class="approach-tag">Communication</span>
+          <h3>Corporate Communication &amp; Workplace Skills</h3>
+          <p>Building the everyday fluency professionals need in modern technology teams.</p>
+        </div>
+        <div class="approach-step reveal reveal-delay-2">
+          <p class="approach-num">02</p>
+          <span class="approach-tag">Interview</span>
+          <h3>Technical Interview Readiness</h3>
+          <p>Structured practice and feedback so candidates walk into interviews prepared.</p>
+        </div>
+        <div class="approach-step reveal reveal-delay-3">
+          <p class="approach-num">03</p>
+          <span class="approach-tag">Branding</span>
+          <h3>Professional Branding &amp; LinkedIn Optimization</h3>
+          <p>Positioning talent to be found, trusted and hired.</p>
+        </div>
+        <div class="approach-step reveal reveal-delay-4">
+          <p class="approach-num">04</p>
+          <span class="approach-tag">Presence</span>
+          <h3>Executive Presence &amp; Professional Conduct</h3>
+          <p>Mentorship that shapes confidence, conduct and career longevity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results">
+    <div class="shell">
+      <div>
+        <div class="section-head reveal" style="text-align:center;margin-inline:auto">
+          <p class="eyebrow" style="justify-content:center">Why WisHR Connect</p>
+          <h2 style="font-size:1.9rem">A partner across the whole talent journey</h2>
+        </div>
+        <div class="testi-wrap" id="testiWrap">
+          <div class="testi-card active" data-index="0">
+            <p class="testi-quote">Delivers reliable IT talent and staffing solutions.</p>
+            <div class="testi-person"><div class="testi-avatar">01</div><div><strong>Talent Acquisition</strong><span>IT staffing</span></div></div>
+          </div>
+          <div class="testi-card" data-index="1">
+            <p class="testi-quote">Provides personalised mentorship that closes the gap between ambition and employability.</p>
+            <div class="testi-person"><div class="testi-avatar">02</div><div><strong>Career Guidance</strong><span>Mentorship</span></div></div>
+          </div>
+          <div class="testi-card" data-index="2">
+            <p class="testi-quote">Builds recruitment, workforce planning and people operations capability for IT teams.</p>
+            <div class="testi-person"><div class="testi-avatar">03</div><div><strong>HR Training</strong><span>Workforce planning</span></div></div>
+          </div>
+          <div class="testi-card" data-index="3">
+            <p class="testi-quote">Runs a guided Career Launch Program, from communication to executive presence.</p>
+            <div class="testi-person"><div class="testi-avatar">04</div><div><strong>Career Launch</strong><span>Placement readiness</span></div></div>
+          </div>
+          <div class="testi-card" data-index="4">
+            <p class="testi-quote">Provides continuous support for long-term success.</p>
+            <div class="testi-person"><div class="testi-avatar">05</div><div><strong>Ongoing Partnership</strong><span>Client success</span></div></div>
+          </div>
+        </div>
+        <div class="testi-dots" id="testiDots">
+          <button class="active" data-go="0" aria-label="Reason 1"></button>
+          <button data-go="1" aria-label="Reason 2"></button>
+          <button data-go="2" aria-label="Reason 3"></button>
+          <button data-go="3" aria-label="Reason 4"></button>
+          <button data-go="4" aria-label="Reason 5"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="shell contact-grid">
+      <div class="reveal">
+        <p class="eyebrow light">Get in Touch</p>
+        <h2>Let's build your people strategy.</h2>
+        <p class="contact-sub">Reach out to our Kochi office — we typically respond within one business day.</p>
+        <ul class="contact-points">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> hr@wishrconnect.com</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.4 2.1L8 10.3a16 16 0 0 0 6 6l1.5-1.5a2 2 0 0 1 2.1-.4c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2z"/></svg> +91 8589 911 107</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Kochi, Kerala</li>
+        </ul>
+      </div>
+
+      <div class="reveal reveal-delay-2">
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="field"><label for="cf-name">Name</label><input id="cf-name" type="text" required placeholder="Your name" /></div>
+            <div class="field"><label for="cf-email">Work email</label><input id="cf-email" type="email" required placeholder="you@company.com" /></div>
+          </div>
+          <div class="field"><label for="cf-company">Company</label><input id="cf-company" type="text" required placeholder="Company name" /></div>
+          <div class="field"><label for="cf-msg">What are you working on?</label><textarea id="cf-msg" rows="4" required placeholder="A few words about your team size, timeline, and what's prompting the search."></textarea></div>
+          <div class="form-foot">
+            <span class="form-note">We reply within one business day.</span>
+            <button class="btn btn-light" type="submit" id="cfSubmit">Send message
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </button>
+          </div>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <strong style="font-size:1.15rem;font-family:'Fraunces',serif">Message received</strong>
+          <p style="color:rgba(255,255,255,.6);font-size:.9rem">Thanks for reaching out — we'll get back to you within one business day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="shell footer-inner">
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="#top"><img class="brand-logo" src="HR_Logo_1_-removebg-preview.png" alt="WisHR Connect" /><span class="brand-text">WisHR Connect <small>HR Consultancy</small></span></a>
+        <p>WisHR Connect supports businesses with people strategy, talent acquisition, and career guidance that help teams and professionals grow with confidence.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#services">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#results">Why WisHR Connect</a></li>
+          <li><a href="#approach">Career Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Talent Acquisition</a></li>
+          <li><a href="#services">HR Training</a></li>
+          <li><a href="#services">Skill Development</a></li>
+          <li><a href="#approach">Career Launch Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+918589911107">+91 8589 911 107</a></li>
+          <li><a href="mailto:hr@wishrconnect.com">hr@wishrconnect.com</a></li>
+          <li><a href="#top">www.wishrconnect.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="shell footer-legal">
+    <span>© 2026 WisHR Connect. All rights reserved.</span>
+    <div class="legal-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ---------- header scroll state ---------- */
+  var header = document.getElementById('siteHeader');
+  function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 8); }
+  document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ---------- mobile nav ---------- */
+  var toggle = document.getElementById('navToggle');
+  var overlay = document.getElementById('navOverlay');
+  var closeBtn = document.getElementById('navClose');
+  function openNav(){ overlay.classList.add('open'); toggle.setAttribute('aria-expanded','true'); document.documentElement.style.overflow='hidden'; }
+  function closeNav(){ overlay.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); document.documentElement.style.overflow=''; }
+  toggle.addEventListener('click', openNav);
+  closeBtn.addEventListener('click', closeNav);
+  overlay.querySelectorAll('[data-nav]').forEach(function(a){ a.addEventListener('click', closeNav); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeNav(); });
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, {threshold:.15});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- approach line fill ---------- */
+  var fillEl = document.getElementById('approachFill');
+  if(fillEl && 'IntersectionObserver' in window){
+    var lineIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ fillEl.classList.add('in'); lineIo.disconnect(); }
+      });
+    }, {threshold:.4});
+    lineIo.observe(fillEl);
+  }
+
+  /* ---------- stat count-up ---------- */
+  var statEls = document.querySelectorAll('.stat-num');
+  function animateStat(el){
+    var target = parseInt(el.getAttribute('data-count'),10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    var start = null, dur = 1400;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/dur, 1);
+      var eased = 1 - Math.pow(1-p, 3);
+      el.textContent = Math.round(eased*target) + suffix;
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var statIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ animateStat(entry.target); statIo.unobserve(entry.target); }
+      });
+    }, {threshold:.5});
+    statEls.forEach(function(el){ statIo.observe(el); });
+  }
+
+  /* ---------- service card 3D tilt ---------- */
+  if(fineHover && !reduceMotion){
+    document.querySelectorAll('.service-card').forEach(function(card){
+      var inner = card.querySelector('.service-card-inner');
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left)/r.width - 0.5;
+        var py = (e.clientY - r.top)/r.height - 0.5;
+        inner.style.transform = 'rotateY('+(px*10)+'deg) rotateX('+(py*-10)+'deg) translateZ(6px)';
+      });
+      card.addEventListener('mouseleave', function(){
+        inner.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+      });
+    });
+  }
+
+  /* ---------- why-WisHR Connect rotator ---------- */
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.testi-card'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.testi-dots button'));
+  var activeIndex = 0, testiTimer;
+  function goTo(i){
+    cards.forEach(function(c, idx){
+      c.classList.remove('active','prev','next');
+      if(idx === i) c.classList.add('active');
+      else if(idx < i) c.classList.add('prev');
+      else c.classList.add('next');
+    });
+    dots.forEach(function(d, idx){ d.classList.toggle('active', idx===i); });
+    activeIndex = i;
+  }
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){ goTo(parseInt(d.getAttribute('data-go'),10)); resetTimer(); });
+  });
+  function resetTimer(){
+    clearInterval(testiTimer);
+    if(!reduceMotion){ testiTimer = setInterval(function(){ goTo((activeIndex+1)%cards.length); }, 6000); }
+  }
+  resetTimer();
+
+  /* ---------- contact form (stub submit) ---------- */
+  var form = document.getElementById('contactForm');
+  var success = document.getElementById('formSuccess');
+  var submitBtn = document.getElementById('cfSubmit');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var label = submitBtn.childNodes[0];
+    submitBtn.disabled = true;
+    label.textContent = 'Sending… ';
+    setTimeout(function(){
+      form.classList.add('hide');
+      success.classList.add('show');
+    }, 700);
+  });
+
+  /* ---------- hero node-sphere (canvas 3D network) ---------- */
+  var canvas = document.getElementById('nodeSphere');
+  if(canvas){
+    var ctx = canvas.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W=0, H=0;
+    var POINTS = 46;
+    var nodes = [];
+    var edges = [];
+    var angleY = 0, angleX = .25;
+
+    function buildSphere(){
+      nodes = [];
+      var phi = Math.PI * (3 - Math.sqrt(5));
+      for(var i=0;i<POINTS;i++){
+        var y = 1 - (i/(POINTS-1))*2;
+        var r = Math.sqrt(Math.max(0,1-y*y));
+        var theta = phi*i;
+        nodes.push({ x: Math.cos(theta)*r, y:y, z: Math.sin(theta)*r });
+      }
+      edges = [];
+      for(var a=0;a<nodes.length;a++){
+        var dists = [];
+        for(var b=0;b<nodes.length;b++){
+          if(a===b) continue;
+          var dx=nodes[a].x-nodes[b].x, dy=nodes[a].y-nodes[b].y, dz=nodes[a].z-nodes[b].z;
+          dists.push({b:b, d: dx*dx+dy*dy+dz*dz});
+        }
+        dists.sort(function(p,q){ return p.d-q.d; });
+        for(var k=0;k<3;k++){
+          var pair = [a, dists[k].b].sort(function(m,n){return m-n;});
+          var key = pair[0]+'-'+pair[1];
+          if(!edges._seen) edges._seen = {};
+          if(!edges._seen[key]){ edges._seen[key]=true; edges.push(pair); }
+        }
+      }
+    }
+    buildSphere();
+
+    function resize(){
+      var rect = canvas.getBoundingClientRect();
+      W = rect.width; H = rect.height;
+      canvas.width = W*dpr; canvas.height = H*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function project(p){
+      var cosY=Math.cos(angleY), sinY=Math.sin(angleY);
+      var x = p.x*cosY - p.z*sinY;
+      var z = p.x*sinY + p.z*cosY;
+      var cosX=Math.cos(angleX), sinX=Math.sin(angleX);
+      var y = p.y*cosX - z*sinX;
+      z = p.y*sinX + z*cosX;
+      var focal = 3.2;
+      var scale = focal/(focal+z);
+      var radius = Math.min(W,H)*0.36;
+      return { x: W/2 + x*radius*scale, y: H/2 + y*radius*scale, scale:scale, z:z };
+    }
+
+    var brass = getComputedStyle(document.documentElement).getPropertyValue('--brass').trim() || '#b98b3e';
+    var teal = getComputedStyle(document.documentElement).getPropertyValue('--teal').trim() || '#2f5d56';
+    var ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#14161f';
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      var projected = nodes.map(project);
+
+      edges.forEach(function(pair){
+        var p1 = projected[pair[0]], p2 = projected[pair[1]];
+        var depth = (p1.z + p2.z)/2;
+        var alpha = Math.max(0.04, Math.min(0.5, 0.28 + depth*0.18));
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.strokeStyle = 'rgba(20,22,31,'+alpha+')';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      projected.forEach(function(p, i){
+        var rad = Math.max(1.6, 3.6*p.scale);
+        var color = i % 5 === 0 ? brass : (i % 3 === 0 ? teal : ink);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, rad, 0, Math.PI*2);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = Math.max(0.35, Math.min(1, 0.55 + p.z*0.4));
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+    }
+
+    if(reduceMotion){
+      draw();
+    } else {
+      (function loop(){
+        angleY += 0.0028;
+        angleX = 0.25 + Math.sin(angleY*0.6)*0.08;
+        draw();
+        requestAnimationFrame(loop);
+      })();
+    }
+  }
+})();
+</script>
+</body>
+</html>
+
